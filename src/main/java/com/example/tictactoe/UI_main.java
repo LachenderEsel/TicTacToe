@@ -13,6 +13,7 @@ import java.io.IOException;
 public class UI_main extends Application {
 
     private UI_Title title;
+    private UI_Game game;
     @Override
     public void start(Stage stage) throws IOException {
         System.out.println("test");
@@ -47,6 +48,8 @@ public class UI_main extends Application {
     }
 
     private void initGame(BorderPane root) {
+        game = new UI_Game(title);
+        root.getChildren().add(game.getStackPane());
     }
 
     public static void main(String[] args) {

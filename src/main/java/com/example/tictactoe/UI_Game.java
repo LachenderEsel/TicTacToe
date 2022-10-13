@@ -50,7 +50,7 @@ public class UI_Game {
     }
 
     public StackPane getStackPane() {
-        return getStackPane();
+        return pane;
     }
 
     private class Tile{
@@ -154,6 +154,7 @@ public class UI_Game {
         private void gameIsOver(String winner){
             gameOver = true;
             System.out.println("Winner is " + winner);
+            ui_Title.showButton();
         }
 
         public StackPane getStackPane() {
@@ -164,7 +165,7 @@ public class UI_Game {
             return label.getText();
         }
 
-        public void setValue(){
+        public void setValue(String value){
             label.setText(value);
         }
 
