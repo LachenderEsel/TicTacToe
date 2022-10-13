@@ -7,6 +7,7 @@ import java.rmi.RemoteException;
 
 /**
  *
+ * @author  Pascal
  */
 public interface TicTacToeAService extends Remote {
     /**
