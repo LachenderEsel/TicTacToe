@@ -2,6 +2,7 @@ package Logic;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.rmi.RemoteException;
 
 /**
  *
@@ -28,7 +29,7 @@ public interface TicTacToeAService {
     // > if opponent joins:
     // - read data from state
     // - return [GameId, Name, FirstMove]
-    public HashMap<String, String> findGame(String clientName);        //throws RemoteException;
+    public HashMap<String, String> findGame(String clientName) throws RemoteException;
 
 
     // Returns a String from ["game_does_not_exist", "invalid_move", "opponent_gone", "you_win", "you_lose", "x,y"]
@@ -50,12 +51,12 @@ public interface TicTacToeAService {
     // - return "x,y"
     // - else:
     // * return "game_does_not_exist"
-    public String makeMove(int x, int y, String gameId);            //throws RemoteException;
+    public String makeMove(int x, int y, String gameId) throws RemoteException;
 
 
 
     // Returns a list with all moves in the game with ID gameId.
     //
     // Each String has the pattern "name: x,y".
-    public ArrayList<String> fullUpdate(String gameId);         //throws RemoteException;
+    public ArrayList<String> fullUpdate(String gameId) throws RemoteException;
 }
