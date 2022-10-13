@@ -1,2 +1,7 @@
-package Main;public class MainClient {
+package Main;
+
+public class MainClient {
+    public static void main (String args[]){
+
+    }
 }

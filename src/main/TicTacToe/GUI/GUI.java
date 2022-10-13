@@ -1,2 +1,12 @@
-package GUI;public class GUI {
+package GUI;
+
+/**
+ *
+ */
+public class GUI {
+
+    /**
+     * Contructor
+     */
+    public GUI() { }
 }
