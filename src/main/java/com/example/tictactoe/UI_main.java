@@ -16,7 +16,6 @@ public class UI_main extends Application {
     private UI_Game game;
     @Override
     public void start(Stage stage) throws IOException {
-        System.out.println("test");
 
         BorderPane root = new BorderPane();
         Scene scene = new Scene(root, UI_field.WINDOW_WIDTH, UI_field.WINDOW_HEIGHT);
@@ -41,7 +40,8 @@ public class UI_main extends Application {
             @Override
             public void handle(ActionEvent ae){
                 UI_Title.hideButton();
-                UI_Title.updateMessage("Game Started");
+                UI_Title.updateMessage("X beginns");
+                System.out.println("New Game!");
                 game.newGamestart();
             }
         };

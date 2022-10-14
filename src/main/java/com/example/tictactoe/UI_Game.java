@@ -4,6 +4,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 
@@ -13,6 +14,7 @@ public class UI_Game {
     private UI_Title ui_Title;
 
     private Tile[][] tiles = new Tile[3][3];
+    private Line line;
 
     private char turn = 'X';
     private boolean gameOver = false;
@@ -25,6 +27,9 @@ public class UI_Game {
         pane.setTranslateY((UI_field.GAME_HEIGHT / 2 ) + UI_field.TITLE_HEIGHT);
 
         addAllTiles();
+
+        line = new Line();
+        pane.getChildren().add(line);
     }
 
     private void addAllTiles() {
@@ -42,9 +47,10 @@ public class UI_Game {
     public void newGamestart(){
         gameOver = false;
         turn = 'X';
+        line.setVisible(false);
         for (int y = 0; y < 3; y++) {
             for (int x = 0; x < 3; x++){
-                tiles[y][x].setValue(" ");
+                tiles[y][x].setValue("");
             }
         }
     }
@@ -110,14 +116,16 @@ public class UI_Game {
                 for (int y = 0; y < 3; y++) {
                     for (int x = 0; x < 3; x++){
                         if (tiles[y][x].getValue().isEmpty()){
+                            System.out.println("nope");
                             return;
                         }
                     }
                 }
+                gameOver = true;
+                ui_Title.updateMessage("It is a draw");
+                System.out.println("draw!");
+                ui_Title.showButton();
             }
-            gameOver = true;
-            ui_Title.updateMessage("It is a draw");
-            ui_Title.showButton();
         }
 
         private void checkTopRightToBottomLeft() {
@@ -125,6 +133,7 @@ public class UI_Game {
                 if (tiles[0][2].getValue().equals(tiles[1][1].getValue()) && tiles[0][2].getValue().equals(tiles[2][0].getValue()) && !tiles[0][2].getValue().isEmpty()) {
                     String winner = tiles[0][2].getValue();
                     gameIsOver(winner);
+                    System.out.println("Won: " + winner);
                 }
             }
         }
@@ -134,6 +143,7 @@ public class UI_Game {
                 if (tiles[0][0].getValue().equals(tiles[1][1].getValue()) && tiles[0][0].getValue().equals(tiles[2][2].getValue()) && !tiles[0][0].getValue().isEmpty()) {
                     String winner = tiles[0][0].getValue();
                     gameIsOver(winner);
+                    System.out.println("Won: " + winner);
                 }
             }
         }
@@ -144,6 +154,7 @@ public class UI_Game {
                     if (tiles[0][x].getValue().equals(tiles[1][x].getValue()) && tiles[0][x].getValue().equals(tiles[2][x].getValue()) && !tiles[0][x].getValue().isEmpty()) {
                         String winner = tiles[0][x].getValue();
                         gameIsOver(winner);
+                        System.out.println("Won: " + winner);
                     }
                 }
             }
@@ -155,6 +166,7 @@ public class UI_Game {
                     if (tiles[y][0].getValue().equals(tiles[y][1].getValue()) && tiles[y][0].getValue().equals(tiles[y][2].getValue()) && !tiles[y][0].getValue().isEmpty()) {
                         String winner = tiles[y][0].getValue();
                         gameIsOver(winner);
+                        System.out.println("Won: " + winner);
                     }
                 }
             }
