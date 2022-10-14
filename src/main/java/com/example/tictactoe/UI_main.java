@@ -42,7 +42,7 @@ public class UI_main extends Application {
             public void handle(ActionEvent ae){
                 UI_Title.hideButton();
                 UI_Title.updateMessage("Game Started");
-                System.out.println("Game Started");
+                game.newGamestart();
             }
         };
     }

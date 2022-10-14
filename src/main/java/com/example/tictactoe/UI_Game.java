@@ -22,7 +22,7 @@ public class UI_Game {
         pane = new StackPane();
         pane.setMinSize(UI_field.WINDOW_WIDTH, UI_field.GAME_HEIGHT);
         pane.setTranslateX(UI_field.WINDOW_WIDTH / 2);
-        pane.setTranslateY((UI_field.WINDOW_HEIGHT / 2 ) + UI_field.TITLE_HEIGHT);
+        pane.setTranslateY((UI_field.GAME_HEIGHT / 2 ) + UI_field.TITLE_HEIGHT);
 
         addAllTiles();
     }
@@ -35,6 +35,16 @@ public class UI_Game {
                 tile.getStackPane().setTranslateY((y * 100) - 100);
                 pane.getChildren().add(tile.getStackPane());
                 tiles[y][x] = tile;
+            }
+        }
+    }
+
+    public void newGamestart(){
+        gameOver = false;
+        turn = 'X';
+        for (int y = 0; y < 3; y++) {
+            for (int x = 0; x < 3; x++){
+                tiles[y][x].setValue(" ");
             }
         }
     }
@@ -104,11 +114,10 @@ public class UI_Game {
                         }
                     }
                 }
-
-                gameOver = true;
-                ui_Title.updateMessage("It is a draw");
-                ui_Title.showButton();
             }
+            gameOver = true;
+            ui_Title.updateMessage("It is a draw");
+            ui_Title.showButton();
         }
 
         private void checkTopRightToBottomLeft() {
@@ -153,7 +162,7 @@ public class UI_Game {
 
         private void gameIsOver(String winner){
             gameOver = true;
-            System.out.println("Winner is " + winner);
+            ui_Title.updateMessage("Winner is " + winner);
             ui_Title.showButton();
         }
 
