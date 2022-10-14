@@ -8,19 +8,19 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 
-public class UI_Title {
+public class UI_GameTitle {
     private static StackPane pane;
     private static Label message;
     private static Button play;
 
-    public UI_Title(){
+    public UI_GameTitle(){
         pane = new StackPane();
-        pane.setMinSize(UI_field.WINDOW_WIDTH, UI_field.TITLE_HEIGHT);
-        pane.setTranslateX(UI_field.WINDOW_WIDTH / 2);
-        pane.setTranslateY(UI_field.TITLE_HEIGHT / 2);
+        pane.setMinSize(UI_Window.WINDOW_WIDTH, UI_Window.TITLE_HEIGHT);
+        pane.setTranslateX(UI_Window.WINDOW_WIDTH / 2);
+        pane.setTranslateY(UI_Window.TITLE_HEIGHT / 2);
 
         message = new Label("Tick Trick Track");
-        message.setMinSize(UI_field.WINDOW_WIDTH, UI_field.TITLE_HEIGHT);
+        message.setMinSize(UI_Window.WINDOW_WIDTH, UI_Window.TITLE_HEIGHT);
         message.setFont(Font.font(26));
         message.setAlignment(Pos.CENTER);
         message.setTranslateY(-20);
