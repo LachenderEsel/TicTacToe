@@ -6,6 +6,4 @@ public class UI_Window {
 
     public static final int TITLE_HEIGHT = 100;
     public static final int GAME_HEIGHT = 300;
-    public static final int SIGNIN_HEIGHT = 300;
-
 }

@@ -52,7 +52,16 @@ public class UI_Game extends Application {
         root.getChildren().add(game.getStackPane());
     }
 
-    public static void main(String[] args) {
+//    public static void main(String[] args) {
+ //       launch();
+  //  }
+
+
+    public void main() {
         launch();
     }
+
+
+
+
 }
