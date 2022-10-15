@@ -1,4 +1,4 @@
-package com.example.tictactoe;
+package GUI;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;

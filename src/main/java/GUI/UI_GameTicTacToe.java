@@ -1,4 +1,4 @@
-package com.example.tictactoe;
+package GUI;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;

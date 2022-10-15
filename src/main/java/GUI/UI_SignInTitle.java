@@ -1,4 +1,4 @@
-package com.example.tictactoe;
+package GUI;
 
 public class UI_SignInTitle {
 }

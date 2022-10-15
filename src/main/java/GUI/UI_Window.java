@@ -1,4 +1,4 @@
-package com.example.tictactoe;
+package GUI;
 
 public class UI_Window {
     public static final int WINDOW_WIDTH = 300;

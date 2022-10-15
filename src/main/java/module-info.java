@@ -3,5 +3,6 @@ module GUI.Scene {
     requires javafx.fxml;
 
     opens com.example.tictactoe to javafx.fxml;
-    exports com.example.tictactoe;
+    exports GUI;
+    opens GUI to javafx.fxml;
 }
