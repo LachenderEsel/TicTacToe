@@ -16,9 +16,7 @@ import javafx.stage.Stage;
 public class UI_signIn extends Application{
 
     private final String font;
-    private final int fontSize;
     private final int fontSizeHeader;
-    //private GUIClient guiClient;
     private String client;
 
     /**
@@ -26,33 +24,29 @@ public class UI_signIn extends Application{
      */
     public UI_signIn() {
         font = "Arial";
-        fontSize = 12;
         fontSizeHeader = 20;
-        //client = new Client();
     }
 
     /**
      *
-     * @throws Exception
      */
-    public void stop() throws Exception {
+    public void stop() {
         System.out.println("Programm wurde beendet.");
     }
 
     /**
      *
-     * @throws Exception
      */
-    public void init() throws Exception {
+    public void init() {
         System.out.println("Programm wurde gestartet.");
     }
 
 
     /**
      * .
-     * @param
+     * @param primaryStage the current stage
      */
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
         primaryStage.setTitle("Distributed systems");
         StackPane pane = new StackPane();
 
@@ -71,23 +65,44 @@ public class UI_signIn extends Application{
 
         /* Textfield */
         TextField serverField = new TextField();
-        nameField.setPrefWidth(350);
-        nameField.setPromptText("Geben Sie einen Servernamen ein");
+        serverField.setPrefWidth(350);
+        serverField.setPromptText("Geben Sie einen Servernamen ein");
 
         /* Set label */
         final Label labelGameID = new Label("Vorhandene Game ID eintragen");
         labelGameID.setFont(new Font(font, fontSizeHeader));
 
         /* Textfield */
-        TextField GameID = new TextField();
-        nameField.setPrefWidth(350);
-        nameField.setPromptText("Geben Sie eine Game ID ein");
+        TextField gameID = new TextField();
+        gameID.setPrefWidth(350);
+        gameID.setPromptText("Geben Sie eine Game ID ein");
 
         /* Buttons */
         Button ok_button = new Button();
         ok_button.setText("OK");
         ok_button.setOnAction( ok -> {
-            try {/*
+            try {
+                //get values from text fields
+                String clientName = nameField.getText();
+                String serverName = serverField.getText();
+                String idGame = gameID.getText();
+
+                //create a new stage
+                Stage secondStage = new Stage();
+
+                //Check if the required fields are filled
+                if (!clientName.isEmpty() && !serverName.isEmpty()) {
+                    UI_Game client = new UI_Game(clientName, serverName, idGame, secondStage);
+                    client.start();
+                    //primaryStage.close();
+                }
+
+
+
+
+
+
+                /*
                 String clientID = nameField.getText() + "@" + InetAddress.getLocalHost().getHostName();
                 client.setClientID(clientID);
                 String serverName = serverField.getText();
@@ -97,7 +112,7 @@ public class UI_signIn extends Application{
                 //primaryStage.close();
                 */
             } catch (Exception e) {
-                System.err.println("Exception: " + e.toString());
+                System.err.println("Exception: " + e);
                 e.printStackTrace();
             }
         });
@@ -114,7 +129,7 @@ public class UI_signIn extends Application{
         buttons.setSpacing(20);
 
         VBox vertical = new VBox();
-        vertical.getChildren().addAll(labelClientName, nameField, lableServerName, serverField, labelGameID, GameID, buttons);
+        vertical.getChildren().addAll(labelClientName, nameField, lableServerName, serverField, labelGameID, gameID, buttons);
         vertical.setPadding(new Insets(15, 15, 15, 15));
         vertical.setSpacing(15);
 

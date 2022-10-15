@@ -1,6 +1,5 @@
 package GUI;
 
-import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -10,12 +9,23 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class UI_Game extends Application {
+public class UI_Game {
 
+    private String clientName;
+    private String serverName;
+    private String gameID;
+    Stage stage;
     private UI_GameTitle title;
     private UI_GameTicTacToe game;
-    @Override
-    public void start(Stage stage) throws IOException {
+
+    public UI_Game (String clientName, String serverName, String gameID, Stage stage) {
+        this.clientName = clientName;
+        this.serverName = serverName;
+        this.gameID = gameID;
+        this.stage = stage;
+    }
+
+    public void start() {
 
         BorderPane root = new BorderPane();
         Scene scene = new Scene(root, UI_Window.WINDOW_WIDTH, UI_Window.WINDOW_HEIGHT);
@@ -51,17 +61,6 @@ public class UI_Game extends Application {
         game = new UI_GameTicTacToe(title);
         root.getChildren().add(game.getStackPane());
     }
-
-//    public static void main(String[] args) {
- //       launch();
-  //  }
-
-
-    public void main() {
-        launch();
-    }
-
-
 
 
 }
