@@ -30,7 +30,25 @@ public class LogicServer implements TicTacToeAService {
      */
     @Override
     public HashMap<String, String> findGame(String clientName) throws RemoteException {
-        clients.add(clientName); //siehe Klassenvariable
+
+
+        /**
+         * LÖSUNG 1
+         */
+        while (clients.size() < 2){
+            addClientToList(clientName);
+
+            if (clients.size() == 2){
+                //Logik zum starten des spiels
+            }
+        }
+
+
+        /**
+         * LÖSUNG 2
+         */
+        addClientToList(clientName);
+
 
 
 
@@ -80,6 +98,30 @@ public class LogicServer implements TicTacToeAService {
             return client_2;
         } else {
             return client_1;
+        }
+    }
+
+    /**
+     * A client will be added to the list if not available
+     * @param clientName Name of the current client
+     */
+    private void addClientToList(String clientName){
+        if (clients.size() == 0){
+            clients.add(clientName); //siehe Klassenvariable
+        } else {
+            boolean clientAvailable = false;
+
+            //check if the client is already available in the list
+            for (int i = 0; i < clients.size(); i++){
+                if (clients.get(i) == clientName) {
+                    clientAvailable = true;
+                }
+            }
+
+            //Add the new client if not available in the current list
+            if(clientAvailable){
+                clients.add(clientName);
+            }
         }
     }
 }
