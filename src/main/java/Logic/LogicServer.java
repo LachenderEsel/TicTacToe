@@ -11,13 +11,14 @@ import java.util.Random;
  */
 public class LogicServer implements TicTacToeAService {
     private HashMap<String, String> player;
-
+    private ArrayList<String> clients; // evtl. sollten das hier keine Strings sondern Clienten sein. noch mal besprechen
 
     /**
      * Constructor
      */
     public LogicServer(){
         player = new HashMap<String, String>();
+        clients = new ArrayList<String>();
     }
 
     /**
@@ -29,6 +30,8 @@ public class LogicServer implements TicTacToeAService {
      */
     @Override
     public HashMap<String, String> findGame(String clientName) throws RemoteException {
+        clients.add(clientName); //siehe Klassenvariable
+
 
 
         return null;
