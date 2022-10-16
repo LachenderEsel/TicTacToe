@@ -12,6 +12,8 @@ import java.util.Random;
 public class LogicServer implements TicTacToeAService {
     private HashMap<String, String> player;
     private ArrayList<String> clients; // evtl. sollten das hier keine Strings sondern Clienten sein. noch mal besprechen
+    private String [][] spielZuege;
+
 
     /**
      * Constructor
@@ -19,6 +21,7 @@ public class LogicServer implements TicTacToeAService {
     public LogicServer(){
         player = new HashMap<String, String>();
         clients = new ArrayList<String>();
+        spielZuege = new String[100][9];
     }
 
     /**
@@ -75,8 +78,16 @@ public class LogicServer implements TicTacToeAService {
      * @throws RemoteException if something went wrong
      */
     @Override
-    public ArrayList<String> fullUpdate(String gameId) throws RemoteException {
-        return null;
+    public ArrayList<String> fullUpdate(String gameId) throws RemoteException { //name: x,y
+        ArrayList<String> update = new ArrayList<String>();
+
+        for (int i = 0; i < spielZuege.length; i++){
+            for (int k = 0; k < spielZuege[i].length; k++) {
+                update.add(spielZuege[i][k]);
+            }
+        }
+
+        return update;
     }
 
     /**

@@ -96,21 +96,6 @@ public class UI_signIn extends Application{
                     client.start();
                     //primaryStage.close();
                 }
-
-
-
-
-
-
-                /*
-                String clientID = nameField.getText() + "@" + InetAddress.getLocalHost().getHostName();
-                client.setClientID(clientID);
-                String serverName = serverField.getText();
-                client.setServername(serverName);
-                guiClient = new GUIClient(font, fontSize, fontSizeHeader, client);
-                guiClient.startClient(new Stage());
-                //primaryStage.close();
-                */
             } catch (Exception e) {
                 System.err.println("Exception: " + e);
                 e.printStackTrace();
