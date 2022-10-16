@@ -1,9 +1,13 @@
 package Logic;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 /**
  *
@@ -11,8 +15,12 @@ import java.util.Random;
  */
 public class LogicServer implements TicTacToeAService {
     private HashMap<String, String> player;
-    private ArrayList<String> clients; // evtl. sollten das hier keine Strings sondern Clienten sein. noch mal besprechen
+    private ArrayList<String> clients;
     private String [][] spielZuege;
+    private String logPath;
+    private Logger logger;
+    private FileHandler fh;
+    private SimpleFormatter formatter;
 
 
     /**
@@ -22,6 +30,8 @@ public class LogicServer implements TicTacToeAService {
         player = new HashMap<String, String>();
         clients = new ArrayList<String>();
         spielZuege = new String[100][9];
+        logPath = System.getProperty("user.dir");
+        initLogger();
     }
 
     /**
@@ -33,28 +43,6 @@ public class LogicServer implements TicTacToeAService {
      */
     @Override
     public HashMap<String, String> findGame(String clientName) throws RemoteException {
-
-
-        /**
-         * LÖSUNG 1
-         */
-        while (clients.size() < 2){
-            addClientToList(clientName);
-
-            if (clients.size() == 2){
-                //Logik zum starten des spiels
-            }
-        }
-
-
-        /**
-         * LÖSUNG 2
-         */
-        addClientToList(clientName);
-
-
-
-
         return null;
     }
 
@@ -78,7 +66,8 @@ public class LogicServer implements TicTacToeAService {
      * @throws RemoteException if something went wrong
      */
     @Override
-    public ArrayList<String> fullUpdate(String gameId) throws RemoteException { //name: x,y
+    public ArrayList<String> fullUpdate(String gameId) throws RemoteException {
+        createLogfile(gameId, "FullUpdate wurde getriggert");
         ArrayList<String> update = new ArrayList<String>();
 
         for (int i = 0; i < spielZuege.length; i++){
@@ -135,4 +124,35 @@ public class LogicServer implements TicTacToeAService {
             }
         }
     }
+
+    /**
+     * Initialize the logger to create a logfile during the runtime
+     */
+    private void initLogger () {
+        logger = Logger.getLogger("Logfile");
+        try {
+            fh = new FileHandler(logPath);
+            logger.addHandler(fh);
+            formatter = new SimpleFormatter();
+            fh.setFormatter(formatter);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        logger.setUseParentHandlers(false);
+        logger.info("Server started");
+    }
+
+    /**
+     * Record everything in the logfile
+     * @param gameID ID of the current game
+     * @param message message
+     */
+    private void createLogfile (String gameID, String message) {
+       // if (clientID != null && message != null) {
+       //     logger.info("Client: " + clientID + " hat die folgende Nachricht gesendet:\n" + message + "\n");
+       // } else {
+       //     logger.info("Client: " + clientID + " hat eine Nachrichtenanfrage gestellt.\n");
+       // }
+    }
+
 }
