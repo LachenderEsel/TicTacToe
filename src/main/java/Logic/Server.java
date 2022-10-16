@@ -11,11 +11,14 @@ import java.rmi.server.UnicastRemoteObject;
  * @author Pascal
  */
 public class Server {
+    private int timeInSec; //timeout time
 
     /**
      * Constructor
      */
-    public Server () { }
+    public Server (String time) {
+        timeInSec = Integer.parseInt(time);
+    }
 
     /**
      * The server will be started.
@@ -30,7 +33,7 @@ public class Server {
 
             // Create the Server and export the object of the implement class.
             // The remote object "serv" will be exported to the stub
-            LogicServer serv = new LogicServer();
+            LogicServer serv = new LogicServer(timeInSec);
             TicTacToeAService stub = (TicTacToeAService) UnicastRemoteObject.exportObject(serv, 0);
 
             // Bind the stub in the registry

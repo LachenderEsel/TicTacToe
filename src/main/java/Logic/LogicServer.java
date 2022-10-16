@@ -3,6 +3,7 @@ package Logic;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.logging.FileHandler;
@@ -16,20 +17,22 @@ import java.util.logging.SimpleFormatter;
 public class LogicServer implements TicTacToeAService {
     private HashMap<String, String> player;
     private ArrayList<String> clients;
-    private String [][] spielZuege;
+    private String [] gameMoves;
     private String logPath;
     private Logger logger;
     private FileHandler fh;
     private SimpleFormatter formatter;
+    private int timeout;
 
 
     /**
      * Constructor
      */
-    public LogicServer(){
+    public LogicServer(int timeout){
+        this.timeout = timeout;
         player = new HashMap<String, String>();
         clients = new ArrayList<String>();
-        spielZuege = new String[100][9];
+        gameMoves = new String[9];
         logPath = System.getProperty("user.dir");
         initLogger();
     }
@@ -70,10 +73,8 @@ public class LogicServer implements TicTacToeAService {
         createLogfile(gameId, "FullUpdate wurde getriggert");
         ArrayList<String> update = new ArrayList<String>();
 
-        for (int i = 0; i < spielZuege.length; i++){
-            for (int k = 0; k < spielZuege[i].length; k++) {
-                update.add(spielZuege[i][k]);
-            }
+        for (int i = 0; i < gameMoves.length; i++){
+            update.add(gameMoves[i]);
         }
 
         return update;
@@ -153,6 +154,13 @@ public class LogicServer implements TicTacToeAService {
        // } else {
        //     logger.info("Client: " + clientID + " hat eine Nachrichtenanfrage gestellt.\n");
        // }
+    }
+
+    /**
+     * Empty the array for old game moves
+     */
+    private void emptyGameMoves(){
+        Arrays.fill(gameMoves, null);
     }
 
 }

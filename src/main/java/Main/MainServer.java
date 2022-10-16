@@ -14,7 +14,8 @@ public class MainServer {
      * @param args arguments
      */
     public static void main (String args[]){
-        Server server = new Server();
+
+        Server server = new Server(args[0]);
         server.serverStart();
     }
 }
