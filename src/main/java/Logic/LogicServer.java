@@ -2,10 +2,7 @@ package Logic;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Random;
+import java.util.*;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
@@ -23,6 +20,8 @@ public class LogicServer implements TicTacToeAService {
     private FileHandler fh;
     private SimpleFormatter formatter;
     private int timeout;
+    private boolean gameRunning;
+    private int gameID;
 
 
     /**
@@ -35,6 +34,22 @@ public class LogicServer implements TicTacToeAService {
         gameMoves = new String[9];
         logPath = System.getProperty("user.dir");
         initLogger();
+        gameRunning = false;
+        gameID = -1;
+        Thread thread = new Thread (() -> {
+           while (true) {
+               checkGame();
+           }
+        });
+    }
+
+    /**
+     * Check if the game is still running and create a new game if the old one is over
+     */
+    public void checkGame(){
+        if (!gameRunning && clients.size() >= 2) {
+
+        }
     }
 
     /**
@@ -46,8 +61,29 @@ public class LogicServer implements TicTacToeAService {
      */
     @Override
     public HashMap<String, String> findGame(String clientName) throws RemoteException {
-        return null;
+        // Check if the given client is available
+        addClientToList(clientName);
+
+
+
+
+
+        //"Game ID", "Opponent Name", and "First Move"
+        return player;
     }
+    /**
+     *      Returns a Map with three keys:
+     *      "Game ID", "Opponent Name", and "First Move"
+     *      Each key maps to a String containing the respective value.
+     *      * Game ID and Opponent Name can be any reasonable Strings.
+     *      * FirstMove is a String from:
+     *      ["your_move", "opponent_move", "no_opponent_found"]
+     *      */
+
+
+
+
+
 
     /**
      *
