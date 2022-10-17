@@ -65,7 +65,23 @@ public class LogicServer implements TicTacToeAService {
         addClientToList(clientName);
 
 
+        // Create a new gameID is no game ID exist
+//        if (clients.size() % 2 == 1 && !gameRunning) {
+//            gameID++;
 
+//            player.put("Game ID", Integer.toString(gameID));
+//            player.put("Opponent Name", "");
+//            player.put("First Move", "no_opponent_found");
+//        } else if (player.get("Opponent Name") == "" && clients.size() % 2 == 0 && !gameRunning) {
+//            player.put("Opponent Name", clients.get(1));
+
+//            if(startPlayer(clients.get(0), clients.get(1)) == clientName) {
+//                player.put("First Move", "your_move");
+//            } else {
+//                player.put("First Move", "opponent_move");
+//            }
+//            gameRunning = !gameRunning;
+//        }
 
 
         //"Game ID", "Opponent Name", and "First Move"
