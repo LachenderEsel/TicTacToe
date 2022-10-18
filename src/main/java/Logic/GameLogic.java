@@ -1,14 +1,33 @@
 package Logic;
 
-import GUI.UI_GameTicTacToe;
+import java.util.*;
 
-public class gameLogik {
-
+public class GameLogic {
     private char turn = 'X';
-
     private boolean gameOver = false;
-
     private String field [][] = new String[2][2];
+    private int gameID;
+    private ArrayList<String> clients;
+    private int startPlayer;
+    /**
+     * Constructor if new game
+     * @param gameID
+     */
+    public GameLogic (int gameID, String clientName, int startPlayer){
+        this.gameID = gameID;
+        clients = new ArrayList<>();
+        clients.add(clientName);
+        this.startPlayer = startPlayer;
+    }
+
+    /**
+     * Constructor if game exist
+     * @param gameID
+     */
+    public GameLogic (int gameID){
+        this.gameID = gameID;
+        clients = new ArrayList<>();
+    }
 
     public void newGamestart(){
         gameOver = false;
@@ -115,5 +134,30 @@ public class gameLogik {
         //ui_Game_Title.showButton();
     }
 
+    /**
+     *
+     * @return
+     */
+    protected String getGameID ()
+    {
+        return Integer.toString(gameID);
+    }
+
+    /**
+     *
+     */
+    protected String getClient(int position)
+    {
+        return clients.get(position);
+    }
+
+    /**
+     *
+     * @param clientName
+     */
+    protected void addClient(String clientName)
+    {
+        clients.add(clientName);
+    }
 }
 

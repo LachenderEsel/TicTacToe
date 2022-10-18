@@ -12,7 +12,7 @@ import java.util.logging.SimpleFormatter;
  * @author Pascal
  */
 public class LogicServer implements TicTacToeAService {
-    private HashMap<String, String> player;
+
     private ArrayList<String> clients;
     private String [] gameMoves;
     private String logPath;
@@ -20,8 +20,9 @@ public class LogicServer implements TicTacToeAService {
     private FileHandler fh;
     private SimpleFormatter formatter;
     private int timeout;
-    private boolean gameRunning;
+
     private int gameID;
+    private GameLogic game;
 
 
     /**
@@ -29,28 +30,13 @@ public class LogicServer implements TicTacToeAService {
      */
     public LogicServer(int timeout){
         this.timeout = timeout;
-        player = new HashMap<String, String>();
         clients = new ArrayList<String>();
         gameMoves = new String[9];
         logPath = System.getProperty("user.dir");
         initLogger();
-        gameRunning = false;
-        gameID = -1;
-        Thread thread = new Thread (() -> {
-           while (true) {
-               checkGame();
-           }
-        });
+        gameID = 0;
     }
 
-    /**
-     * Check if the game is still running and create a new game if the old one is over
-     */
-    public void checkGame(){
-        if (!gameRunning && clients.size() >= 2) {
-
-        }
-    }
 
     /**
      * Server accepts client's game registration and waits for the next
@@ -61,42 +47,49 @@ public class LogicServer implements TicTacToeAService {
      */
     @Override
     public HashMap<String, String> findGame(String clientName) throws RemoteException {
-        // Check if the given client is available
         addClientToList(clientName);
+        HashMap<String, String> map = new HashMap<>();
 
 
-        // Create a new gameID is no game ID exist
-//        if (clients.size() % 2 == 1 && !gameRunning) {
-//            gameID++;
+        if(game == null)
+        {
+            gameID++;
+            game = new GameLogic(gameID, clientName, startPlayer());
+            try{
+                game.wait();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
-//            player.put("Game ID", Integer.toString(gameID));
-//            player.put("Opponent Name", "");
-//            player.put("First Move", "no_opponent_found");
-//        } else if (player.get("Opponent Name") == "" && clients.size() % 2 == 0 && !gameRunning) {
-//            player.put("Opponent Name", clients.get(1));
+            map.put("Game ID", game.getGameID());
+            map.put("Opponent name", game.getClient(1));
+            map.put("First Move", firstMove(clientName));
 
-//            if(startPlayer(clients.get(0), clients.get(1)) == clientName) {
-//                player.put("First Move", "your_move");
-//            } else {
-//                player.put("First Move", "opponent_move");
-//            }
-//            gameRunning = !gameRunning;
-//        }
-
-
-        //"Game ID", "Opponent Name", and "First Move"
-        return player;
+        }
+        else
+        {
+            map.put("Game ID", game.getGameID());
+            map.put("Opponent name", game.getClient(0));
+            map.put("First Move", firstMove(clientName));
+            game.addClient(clientName);
+            game.notify();
+        }
+        return map;
     }
+
     /**
-     *      Returns a Map with three keys:
-     *      "Game ID", "Opponent Name", and "First Move"
-     *      Each key maps to a String containing the respective value.
-     *      * Game ID and Opponent Name can be any reasonable Strings.
-     *      * FirstMove is a String from:
-     *      ["your_move", "opponent_move", "no_opponent_found"]
-     *      */
-
-
+     *
+     * @param clientName
+     * @return
+     */
+    private String firstMove(String clientName)
+    {
+        if (game.getClient(startPlayer()) == clientName)
+        {
+            return "your_move";
+        }
+        return "opponent_move";
+    }
 
 
 
@@ -134,24 +127,11 @@ public class LogicServer implements TicTacToeAService {
 
     /**
      * Decide which player starts in the game randomly.
-     * @param client_1 the first client
-     * @param client_2 the second client
      * @return the client with the first move
      */
-    private String startPlayer(String client_1, String client_2) {
+    private int startPlayer() {
         Random rand = new Random();
-        int client1;
-        int client2;
-        do {
-            client1 = rand.nextInt(100);
-            client2 = rand.nextInt(100);
-        } while (client1 == client2);
-
-        if (client1 < client2){
-            return client_2;
-        } else {
-            return client_1;
-        }
+        return rand.nextInt(2);
     }
 
     /**
