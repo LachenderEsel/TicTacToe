@@ -14,7 +14,7 @@ import java.util.logging.SimpleFormatter;
 public class LogicServer implements TicTacToeAService {
 
     private ArrayList<String> clients;
-    private String [] gameMoves;
+    private ArrayList<String> gameMoves;
     private String logPath;
     private Logger logger;
     private FileHandler fh;
@@ -23,15 +23,18 @@ public class LogicServer implements TicTacToeAService {
 
     private int gameID;
     private GameLogic game;
-
+    private long lastMove;
+    private boolean isThereAWinner;
+    private int mieserFlippi;
 
     /**
      * Constructor
      */
     public LogicServer(int timeout){
         this.timeout = timeout;
-        clients = new ArrayList<String>();
-        gameMoves = new String[9];
+        isThereAWinner = false;
+        clients = new ArrayList<>();
+        gameMoves = new ArrayList<>();
         logPath = System.getProperty("user.dir");
         initLogger();
         gameID = 0;
@@ -84,15 +87,22 @@ public class LogicServer implements TicTacToeAService {
      */
     private String firstMove(String clientName)
     {
-        if (game.getClient(startPlayer()) == clientName)
+        int player = startPlayer();
+        mieserFlippi = player;
+        if (game.getClient(player) == clientName)
         {
             return "your_move";
         }
         return "opponent_move";
+
     }
 
-
-
+    private int doItBrother(int flippidiflappidi){
+        if (flippidiflappidi == 1){
+            return 2;
+        }
+        return 1;
+    }
 
     /**
      *
@@ -103,8 +113,52 @@ public class LogicServer implements TicTacToeAService {
      * @throws RemoteException if something went wrong
      */
     @Override
-    public String makeMove(int x, int y, String gameId) throws RemoteException {
-        return null;
+    public String makeMove(int x, int y, String gameId) {
+        if (gameId == game.getGameID())
+        {
+            if ((x < 0 && x > 2) && (y < 0 && y > 2))
+            {
+                String coord = x + "," + y;
+                gameMoves.add(clients.get(mieserFlippi) + ": " + coord);
+                doItBrother(mieserFlippi);
+
+                this.lastMove = System.currentTimeMillis();
+                this.notify();
+
+                try{
+                    this.wait(timeout * 1000);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                long time = (System.currentTimeMillis() -lastMove)/1000;
+                if (time > timeout) {
+                    return "opponent_gone";
+                }
+
+                game.setMove(x,y);
+
+                if (isThereAWinner == true)
+                {
+                    return "you_lose";
+                }
+
+                if (game.getGameOver())
+                {
+                    isThereAWinner = true;
+                    return "you_win";
+                }
+
+                return coord;
+            }
+            else
+            {
+                return "invalid_move";
+            }
+        } else
+        {
+            return "game_does_not_exist";
+        }
     }
 
     /**
@@ -116,13 +170,7 @@ public class LogicServer implements TicTacToeAService {
     @Override
     public ArrayList<String> fullUpdate(String gameId) throws RemoteException {
         createLogfile(gameId, "FullUpdate wurde getriggert");
-        ArrayList<String> update = new ArrayList<String>();
-
-        for (int i = 0; i < gameMoves.length; i++){
-            update.add(gameMoves[i]);
-        }
-
-        return update;
+        return gameMoves;
     }
 
     /**
@@ -192,7 +240,6 @@ public class LogicServer implements TicTacToeAService {
      * Empty the array for old game moves
      */
     private void emptyGameMoves(){
-        Arrays.fill(gameMoves, null);
+        gameMoves.clear();
     }
-
 }

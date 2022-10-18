@@ -41,7 +41,6 @@ public class UI_Game {
 
     private void initTitle(BorderPane root) {
         title = new UI_GameTitle();
-        title.setButtonOnAction(startNewGame());
         root.getChildren().add(UI_GameTitle.getStackPane());
     }
 

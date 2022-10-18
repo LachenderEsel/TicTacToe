@@ -9,6 +9,8 @@ public class GameLogic {
     private int gameID;
     private ArrayList<String> clients;
     private int startPlayer;
+
+
     /**
      * Constructor if new game
      * @param gameID
@@ -38,6 +40,14 @@ public class GameLogic {
                 field[y][x] = "";
             }
         }
+    }
+
+    public void setMove(int x, int y){
+        field[y][x] = getTurn();
+    }
+
+    public boolean getGameOver(){
+        return gameOver;
     }
 
     public void changeTurn(){

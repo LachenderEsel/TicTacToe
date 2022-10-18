@@ -14,7 +14,7 @@ public class UI_GameTicTacToe {
     private UI_GameTitle ui_Game_Title;
 
     private Tile[][] tiles = new Tile[3][3];
-    private Line line;
+
 
     private char turn = 'X';
     private boolean gameOver = false;
@@ -27,9 +27,6 @@ public class UI_GameTicTacToe {
         pane.setTranslateY((UI_Window.GAME_HEIGHT / 2 ) + UI_Window.TITLE_HEIGHT);
 
         addAllTiles();
-
-        line = new Line();
-        pane.getChildren().add(line);
     }
 
     private void addAllTiles() {
@@ -45,14 +42,7 @@ public class UI_GameTicTacToe {
     }
 
     public void newGamestart(){
-        gameOver = false;
-        turn = 'X';
-        line.setVisible(false);
-        for (int y = 0; y < 3; y++) {
-            for (int x = 0; x < 3; x++){
-                tiles[y][x].setValue("");
-            }
-        }
+        //getten wir vom Server
     }
 
     public void changeTurn(){
@@ -62,7 +52,6 @@ public class UI_GameTicTacToe {
             turn = 'X';
         }
         ui_Game_Title.updateMessage("Now " + turn + " Player");
-
     }
 
     public StackPane getStackPane() {
@@ -104,90 +93,11 @@ public class UI_GameTicTacToe {
         }
 
         public void checkWinner(){
-            checkRow();
-            checkCols();
-            checkTopLeftToBottomRight();
-            checkTopRightToBottomLeft();
-            checkDraw();
-        }
-
-        private void checkDraw() {
-            if (!gameOver){
-                for (int y = 0; y < 3; y++) {
-                    for (int x = 0; x < 3; x++){
-                        if (tiles[y][x].getValue().isEmpty()){
-                            System.out.println("nope");
-                            return;
-                        }
-                    }
-                }
-                gameOver = true;
-                ui_Game_Title.updateMessage("It is a draw");
-                System.out.println("draw!");
-                ui_Game_Title.showButton();
-            }
-        }
-
-        private void checkTopRightToBottomLeft() {
-            if (!gameOver){
-                if (tiles[0][2].getValue().equals(tiles[1][1].getValue()) && tiles[0][2].getValue().equals(tiles[2][0].getValue()) && !tiles[0][2].getValue().isEmpty()) {
-                    String winner = tiles[0][2].getValue();
-                    gameIsOver(winner);
-                    System.out.println("Won: " + winner);
-                }
-            }
-        }
-
-        private void checkTopLeftToBottomRight() {
-            if (!gameOver){
-                if (tiles[0][0].getValue().equals(tiles[1][1].getValue()) && tiles[0][0].getValue().equals(tiles[2][2].getValue()) && !tiles[0][0].getValue().isEmpty()) {
-                    String winner = tiles[0][0].getValue();
-                    gameIsOver(winner);
-                    System.out.println("Won: " + winner);
-                }
-            }
-        }
-
-        private void checkCols() {
-            if (!gameOver) {
-                for (int x = 0; x < 3; x++) {
-                    if (tiles[0][x].getValue().equals(tiles[1][x].getValue()) && tiles[0][x].getValue().equals(tiles[2][x].getValue()) && !tiles[0][x].getValue().isEmpty()) {
-                        String winner = tiles[0][x].getValue();
-                        gameIsOver(winner);
-                        System.out.println("Won: " + winner);
-                    }
-                }
-            }
-        }
-
-        private void checkRow() {
-            if (!gameOver) {
-                for (int y = 0; y < 3; y++) {
-                    if (tiles[y][0].getValue().equals(tiles[y][1].getValue()) && tiles[y][0].getValue().equals(tiles[y][2].getValue()) && !tiles[y][0].getValue().isEmpty()) {
-                        String winner = tiles[y][0].getValue();
-                        gameIsOver(winner);
-                        System.out.println("Won: " + winner);
-                    }
-                }
-            }
-        }
-
-        private void gameIsOver(String winner){
-            gameOver = true;
-            ui_Game_Title.updateMessage("Winner is " + winner);
-            ui_Game_Title.showButton();
+            //server sagt uns was los ist
         }
 
         public StackPane getStackPane() {
             return pane;
-        }
-
-        public String getValue(){
-            return label.getText();
-        }
-
-        public void setValue(String value){
-            label.setText(value);
         }
 
     }

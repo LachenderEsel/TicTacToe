@@ -25,11 +25,6 @@ public class UI_GameTitle {
         message.setAlignment(Pos.CENTER);
         message.setTranslateY(-20);
         pane.getChildren().add(message);
-
-        play = new Button("Start");
-        play.setMinSize(135, 30);
-        play.setTranslateY(20);
-        pane.getChildren().add(play);
     }
 
     public static StackPane getStackPane() {
@@ -46,9 +41,5 @@ public class UI_GameTitle {
 
     public static void hideButton(){
         play.setVisible(false);
-    }
-
-    public void setButtonOnAction(EventHandler<ActionEvent> onAction) {
-        play.setOnAction(onAction);
     }
 }
