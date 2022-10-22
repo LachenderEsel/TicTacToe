@@ -1,5 +1,6 @@
 package GUI;
 
+import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -9,8 +10,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class UI_Game {
-
+public class UI_Game extends Application {
     private String clientName;
     private String serverName;
     private String gameID;
@@ -18,14 +18,7 @@ public class UI_Game {
     private UI_GameTitle title;
     private UI_GameTicTacToe game;
 
-    public UI_Game (String clientName, String serverName, String gameID, Stage stage) {
-        this.clientName = clientName;
-        this.serverName = serverName;
-        this.gameID = gameID;
-        this.stage = stage;
-    }
-
-    public void start() {
+    public void start(Stage stage) {
 
         BorderPane root = new BorderPane();
         Scene scene = new Scene(root, UI_Window.WINDOW_WIDTH, UI_Window.WINDOW_HEIGHT);
@@ -33,7 +26,7 @@ public class UI_Game {
         stage.setScene(scene);
         stage.show();
     }
-    
+
     private void initLayout(BorderPane root){
         initTitle(root);
         initGame(root);
@@ -44,22 +37,12 @@ public class UI_Game {
         root.getChildren().add(UI_GameTitle.getStackPane());
     }
 
-    private EventHandler<ActionEvent> startNewGame() {
-        return new  EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent ae){
-                UI_GameTitle.hideButton();
-                UI_GameTitle.updateMessage("X beginns");
-                System.out.println("New Game!");
-                game.newGamestart();
-            }
-        };
-    }
-
     private void initGame(BorderPane root) {
         game = new UI_GameTicTacToe(title);
         root.getChildren().add(game.getStackPane());
     }
 
-
+    public void main() {
+        Application.launch();
+    }
 }
