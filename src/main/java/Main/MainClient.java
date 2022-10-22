@@ -1,6 +1,7 @@
 package Main;
 
-import GUI.UI_signIn;
+import GUI.UI_Game;
+
 
 /**
  *
@@ -12,7 +13,7 @@ public class MainClient {
      * @param args arguments
      */
     public static void main (String args[]){
-        UI_signIn signIn = new UI_signIn();
-        signIn.main();
+        UI_Game client = new UI_Game();
+        client.main();
     }
 }

@@ -41,7 +41,7 @@ public class UI_GameTicTacToe {
         }
     }
 
-    public void newGamestart(){
+    public static void newGamestart(){
         //getten wir vom Server
     }
 
