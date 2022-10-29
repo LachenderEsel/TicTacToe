@@ -82,12 +82,13 @@ public class Client {
             System.out.println("Rejoined and move.");
         }
         return true;
+
     }   /**
      * find/start a new game
      * @param clientID ID of the client
      * @return true if a new game was started. False if no game was found
      */
-    protected boolean findGame(String clientID)
+    public boolean findGame(String clientID)
     {
         this.clientID = clientID;
         try {
@@ -119,7 +120,6 @@ public class Client {
 
         return true;
     }
-
 
     /**
      *
@@ -181,7 +181,6 @@ public class Client {
     {
         try {
             String answer = ticTacToeService.makeMove(x, y, Integer.toString(gameID));
-
             // If u won the game
             if (answer == "you_win")
             {

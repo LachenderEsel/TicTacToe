@@ -1,6 +1,7 @@
 
 package GUI;
 
+import Logic.Client;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -10,6 +11,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+
+import java.rmi.RemoteException;
 
 public class UI_GameTitle {
     private static StackPane pane;
@@ -21,8 +24,14 @@ public class UI_GameTitle {
     private static Label message;
     private static Button play;
     private static Button update;
+    private boolean userConnected;
+
+    private Client client;
 
     public UI_GameTitle(){
+
+        userConnected = false;
+        client = new Client();
 
         pane = new StackPane();
         pane.setMinSize(UI_Window.WINDOW_WIDTH, UI_Window.TITLE_HEIGHT);
@@ -45,13 +54,13 @@ public class UI_GameTitle {
         id.setTranslateX(-40);
         pane.getChildren().add(id);
 
-        nameField = new TextField("set name");
+        nameField = new TextField();
         nameField.setMinSize(120, 30);
         nameField.setTranslateY(-45);
         nameField.setTranslateX(-80);
         pane.getChildren().add(nameField);
 
-        idField = new TextField("set GameID");
+        idField = new TextField();
         idField.setMinSize(120, 30);
         idField.setTranslateY(-45);
         idField.setTranslateX(80);
@@ -69,10 +78,13 @@ public class UI_GameTitle {
         play.setTranslateY(50);
         play.setTranslateX(-55);
         play.setOnMouseClicked(event -> {
-            UI_GameTitle.hideButton();
-            UI_GameTitle.updateMessage("X beginns");
-            System.out.println("New Game!");
-            UI_GameTicTacToe.newGamestart();
+            if(userConnected)
+            {
+                UI_GameTitle.hideButton();
+                UI_GameTitle.updateMessage("X beginns");
+                System.out.println("New Game!");
+                UI_GameTicTacToe.newGamestart(client, nameField.getText());
+            }
         });
         pane.getChildren().add(play);
 
@@ -82,6 +94,20 @@ public class UI_GameTitle {
         update.setTranslateX(35);
         update.setOnMouseClicked(event -> {
             //connect
+            if(!nameField.getText().equals("") && idField.getText().equals(""))
+            {
+                client.connect(nameField.getText());
+                userConnected = true;
+            }
+            else if (!idField.getText().equals(""))
+            {
+                client.reJoinGame(Integer.parseInt(idField.getText()), nameField.getText());
+                userConnected = true;
+            }
+            else
+            {
+                userConnected = false;
+            }
         });
         pane.getChildren().add(update);
     }

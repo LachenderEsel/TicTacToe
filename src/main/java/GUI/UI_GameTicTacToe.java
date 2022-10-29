@@ -1,5 +1,6 @@
 package GUI;
 
+import Logic.Client;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
@@ -12,6 +13,7 @@ public class UI_GameTicTacToe {
 
     private StackPane pane;
     private UI_GameTitle ui_Game_Title;
+    private static Client client;
 
     private Tile[][] tiles = new Tile[3][3];
 
@@ -32,7 +34,7 @@ public class UI_GameTicTacToe {
     private void addAllTiles() {
         for (int y = 0; y < 3; y++) {
             for (int x = 0; x < 3; x++){
-                Tile tile = new Tile();
+                Tile tile = new Tile(x, y);
                 tile.getStackPane().setTranslateX((x * 100) - 100);
                 tile.getStackPane().setTranslateY((y * 100) - 100);
                 pane.getChildren().add(tile.getStackPane());
@@ -41,8 +43,20 @@ public class UI_GameTicTacToe {
         }
     }
 
-    public static void newGamestart(){
-        //getten wir vom Server
+    private void getCoordinates()
+    {
+        for (int y = 0; y < 3; y++)
+        {
+            for (int x = 0; x < 3; x++)
+            {
+
+            }
+        }
+    }
+
+    public static void newGamestart(Client clt, String clientName){
+        client = clt;
+        client.findGame(clientName);
     }
 
     public void changeTurn(){
@@ -57,13 +71,17 @@ public class UI_GameTicTacToe {
     public StackPane getStackPane() {
         return pane;
     }
-
     private class Tile{
 
         private StackPane pane;
         private Label label;
+        private int x;
+        private int y;
 
-        public Tile(){
+        public Tile(int x, int y){
+            this.x = x;
+            this.y = y;
+
             pane = new StackPane();
             pane.setMinSize(100,100);
 
@@ -80,8 +98,12 @@ public class UI_GameTicTacToe {
             pane.getChildren().add(label);
 
             pane.setOnMouseClicked(event -> {
+
                 if (label.getText().isEmpty() && !gameOver) {
                     label.setText(getTurn());
+                    System.out.println("Koordinate x: " + x);
+                    System.out.println("Koordinate y: " + y);
+                    client.makeMove(x, y);
                     changeTurn();
                     checkWinner();
                 }
