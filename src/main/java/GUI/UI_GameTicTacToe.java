@@ -43,17 +43,6 @@ public class UI_GameTicTacToe {
         }
     }
 
-    private void getCoordinates()
-    {
-        for (int y = 0; y < 3; y++)
-        {
-            for (int x = 0; x < 3; x++)
-            {
-
-            }
-        }
-    }
-
     public static void newGamestart(Client clt, String clientName){
         client = clt;
         client.findGame(clientName);
