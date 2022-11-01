@@ -6,5 +6,6 @@ module GUI.Scene {
 
     opens com.example.tictactoe to javafx.fxml;
     exports GUI;
+    exports Logic;
     opens GUI to javafx.fxml;
 }

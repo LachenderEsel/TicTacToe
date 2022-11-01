@@ -36,7 +36,18 @@ public class LogicServer implements TicTacToeAService {
         clients = new ArrayList<>();
         gameMoves = new ArrayList<>();
         logPath = System.getProperty("user.dir");
-        initLogger();
+//        initLogger();
+        gameID = 0;
+    }
+
+    //ohne parameter
+    public LogicServer(){
+        this.timeout = 30;
+        isThereAWinner = false;
+        clients = new ArrayList<>();
+        gameMoves = new ArrayList<>();
+        logPath = System.getProperty("user.dir");
+//        initLogger();
         gameID = 0;
     }
 
@@ -209,7 +220,7 @@ public class LogicServer implements TicTacToeAService {
     /**
      * Initialize the logger to create a logfile during the runtime
      */
-    private void initLogger () {
+/*    private void initLogger () {
         logger = Logger.getLogger("Logfile");
         try {
             fh = new FileHandler(logPath);
@@ -222,7 +233,7 @@ public class LogicServer implements TicTacToeAService {
         logger.setUseParentHandlers(false);
         logger.info("Server started");
     }
-
+*/
     /**
      * Record everything in the logfile
      * @param gameID ID of the current game
