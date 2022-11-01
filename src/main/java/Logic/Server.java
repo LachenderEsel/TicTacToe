@@ -16,6 +16,7 @@ import java.util.HashMap;
 public class Server {
     private int timeInSec; //timeout time
     int port;
+    private boolean rmiStarted;
 
     /**
      * Constructor
@@ -23,6 +24,7 @@ public class Server {
     public Server (String time) {
         timeInSec = Integer.parseInt(time);
         port = 8080;
+        rmiStarted = false;
     }
 
     /**
@@ -36,16 +38,29 @@ public class Server {
 
             InetAddress ip = InetAddress.getLocalHost();
 
+            if(!rmiStarted)
+            {
+                java.rmi.registry.LocateRegistry.createRegistry(port);
+                rmiStarted = true;
+            }
+            java.rmi.registry.Registry registry = java.rmi.registry.LocateRegistry.getRegistry(port);
+            try
+            {
+                registry.unbind("TicTacToeAService");
+            }
+            catch (Exception e)
+            {
+
+            }
+
             // Create the Server and export the object of the implement class.
             // The remote object "obj" will be exported to the stub
             LogicServer obj = new LogicServer();
             TicTacToeAService stub = (TicTacToeAService) UnicastRemoteObject.exportObject(obj, 8080);
 
-            System.out.println("hallo");
-
             // Bind the stub in the registry
-            Registry registry = LocateRegistry.getRegistry();
-            registry.rebind("TicTacToeServer", stub);
+            //Registry registry = LocateRegistry.getRegistry();
+            registry.rebind("TicTacToeAService", stub);
 
             //Let the user know if the Server is ready
             System.err.println("***** The Server with the ip: " + ip + " is ready! *****");

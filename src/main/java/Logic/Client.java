@@ -87,7 +87,7 @@ public class Client {
      * @param clientID ID of the client
      * @return true if a new game was started. False if no game was found
      */
-    protected boolean findGame(String clientID)
+    public boolean findGame(String clientID)
     {
         this.clientID = clientID;
         try {
@@ -124,7 +124,7 @@ public class Client {
     /**
      *
      */
-    private void waitAndUpdateRemote()
+    public void waitAndUpdateRemote()
     {
         try
         {
