@@ -14,7 +14,7 @@ import java.util.Objects;
  */
 public class Client {
 
-    private final int REGPORT = 1099; //registry port
+    private final int REGPORT = 8080; //registry port
 
     private int gameID;
     private String clientID;

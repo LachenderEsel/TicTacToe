@@ -1,6 +1,7 @@
 
 package GUI;
 
+import Logic.Client;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -10,6 +11,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.util.concurrent.ExecutionException;
 
 public class UI_GameTitle {
     private static StackPane pane;
@@ -21,15 +26,18 @@ public class UI_GameTitle {
     private static Label message;
     private static Button play;
     private static Button update;
+    private Client client;
 
     public UI_GameTitle(){
+
+        client = new Client();
 
         pane = new StackPane();
         pane.setMinSize(UI_Window.WINDOW_WIDTH, UI_Window.TITLE_HEIGHT);
         pane.setTranslateX(UI_Window.WINDOW_WIDTH / 2);
         pane.setTranslateY(UI_Window.TITLE_HEIGHT / 2);
 
-        name = new Label("Client Name:");
+        name = new Label("Set Name:");
         name.setMinSize(UI_Window.WINDOW_WIDTH, UI_Window.TITLE_HEIGHT);
         name.setFont(Font.font(20));
         name.setAlignment(Pos.TOP_LEFT);
@@ -37,7 +45,7 @@ public class UI_GameTitle {
         name.setTranslateX(10);
         pane.getChildren().add(name);
 
-        id = new Label("GameID:");
+        id = new Label("Set GameID:");
         id.setMinSize(UI_Window.WINDOW_WIDTH, UI_Window.TITLE_HEIGHT);
         id.setFont(Font.font(20));
         id.setAlignment(Pos.TOP_RIGHT);
@@ -45,13 +53,13 @@ public class UI_GameTitle {
         id.setTranslateX(-40);
         pane.getChildren().add(id);
 
-        nameField = new TextField("set name");
+        nameField = new TextField("");
         nameField.setMinSize(120, 30);
         nameField.setTranslateY(-45);
         nameField.setTranslateX(-80);
         pane.getChildren().add(nameField);
 
-        idField = new TextField("set GameID");
+        idField = new TextField("");
         idField.setMinSize(120, 30);
         idField.setTranslateY(-45);
         idField.setTranslateX(80);
@@ -64,27 +72,28 @@ public class UI_GameTitle {
         message.setTranslateY(10);
         pane.getChildren().add(message);
 
-        play = new Button("Start");
-        play.setMinSize(65,30);
-        play.setTranslateY(50);
-        play.setTranslateX(-55);
-        play.setOnMouseClicked(event -> {
-            UI_GameTitle.hideButton();
-            UI_GameTitle.updateMessage("X beginns");
-            System.out.println("New Game!");
-            UI_GameTicTacToe.newGamestart();
-        });
-        pane.getChildren().add(play);
-
         update = new Button("Connect ");
         update.setMinSize(85,30);
         update.setTranslateY(50);
-        update.setTranslateX(35);
         update.setOnMouseClicked(event -> {
-            //connect
+            start();
         });
         pane.getChildren().add(update);
     }
+
+    public void start(){
+        updateMessage("Connecting...");
+        try {
+            client.connect("127.0.1.1");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (client.findGame(idField.getText())){
+
+        }
+        updateMessage("Connected");
+    }
+
 
     public static StackPane getStackPane() {
         return pane;
