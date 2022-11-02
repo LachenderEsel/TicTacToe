@@ -41,7 +41,7 @@ public class Client {
         int port = REGPORT;
         System.out.println("Connect to -> " + hostName);
         try {
-            Registry registry = LocateRegistry.getRegistry(hostName, port);
+            Registry registry = LocateRegistry.getRegistry(hostName);
             ticTacToeService = (TicTacToeAService) registry.lookup("TicTacToeAService");
 
             System.out.println("Connected to -> " + hostName);

@@ -37,6 +37,7 @@ public class Server {
             System.out.println("***** Start server *****");
 
             InetAddress ip = InetAddress.getLocalHost();
+            String hostname = ip.getHostName();
 
             if(!rmiStarted)
             {
@@ -61,9 +62,10 @@ public class Server {
             // Bind the stub in the registry
             //Registry registry = LocateRegistry.getRegistry();
             registry.rebind("TicTacToeAService", stub);
+            System.setProperty(ip.toString(), "141.22.27.107");
 
             //Let the user know if the Server is ready
-            System.err.println("***** The Server with the ip: " + ip + " is ready! *****");
+            System.err.println("***** The Server with the ip: ''" + ip + "'' and Hostname: ''" + hostname + "'' is ready! *****");
 
         } catch (RemoteException | UnknownHostException e) {
             System.err.println("***** Server start failed. --> Exception: " + e);

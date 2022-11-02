@@ -84,7 +84,7 @@ public class UI_GameTitle {
     public void start(){
         updateMessage("Connecting...");
         try {
-            client.connect("127.0.1.1");
+            client.connect("lab28.mailcluster.haw-hamburg.de/127.0.1.1");
         } catch (Exception e) {
             e.printStackTrace();
         }
