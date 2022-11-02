@@ -61,32 +61,51 @@ public class LogicServer implements TicTacToeAService {
      */
     @Override
     public HashMap<String, String> findGame(String clientName) throws RemoteException {
+        System.out.println("start find game");
         addClientToList(clientName);
+        System.out.println("after addClient");
         HashMap<String, String> map = new HashMap<>();
-
+        System.out.println("after hashmap create");
 
         if(game == null)
         {
+            System.out.println("If no game available");
             gameID++;
+            System.out.println("after game id: " + gameID);
             game = new GameLogic(gameID, clientName, startPlayer());
-            try{
-                game.wait();
+            System.out.println("after gamelogic: " + game);
+            try
+            {
+                synchronized (game)
+                {
+                    System.out.println("before wait");
+                    game.wait();
+                    System.out.println("after wait");
+                }
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            System.out.println("after try, before fill hashmap");
 
             map.put("Game ID", game.getGameID());
             map.put("Opponent name", game.getClient(1));
             map.put("First Move", firstMove(clientName));
 
+            System.out.println("after filled hashmap");
+
         }
         else
         {
+            System.out.println("else before fill hashmap");
             map.put("Game ID", game.getGameID());
             map.put("Opponent name", game.getClient(0));
             map.put("First Move", firstMove(clientName));
+            System.out.println("after filled hashmap in else");
             game.addClient(clientName);
+            System.out.println("after add client");
             game.notify();
+            System.out.println("after notify");
         }
         return map;
     }

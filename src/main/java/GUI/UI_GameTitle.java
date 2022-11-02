@@ -88,8 +88,15 @@ public class UI_GameTitle {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if (client.findGame(idField.getText())){
-
+        if (idField.getText().equals("")){
+            updateMessage("Looking for a Game...");
+            if(client.findGame(nameField.getText())){
+                idField.setEditable(false);
+                idField.setText(Integer.toString(client.getGameID()));
+                client.getGameMoves();
+            } else {
+                updateMessage("no Game found!");
+            }
         }
         updateMessage("Connected");
     }

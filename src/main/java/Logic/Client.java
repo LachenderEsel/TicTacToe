@@ -89,10 +89,14 @@ public class Client {
      */
     public boolean findGame(String clientID)
     {
+        System.out.println("find game");
         this.clientID = clientID;
+        System.out.println("after clientID");
         try {
+            System.out.println("try block");
             HashMap<String, String> map = ticTacToeService.findGame(clientID);
-
+            System.out.println("after hashmap");
+            System.out.println(map);
             //if no opponent was found
             if(map.get("First Move").equals("no_opponent_found"))
             {
