@@ -14,6 +14,7 @@ import javafx.scene.text.Text;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 public class UI_GameTitle {
@@ -84,11 +85,12 @@ public class UI_GameTitle {
     public void start(){
         updateMessage("Connecting...");
         try {
-            client.connect("lab28.mailcluster.haw-hamburg.de/127.0.1.1");
+            client.connect("127.0.1.1");
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if (idField.getText().equals("")){
+        if (idField.getText().equals(""))
+        {
             updateMessage("Looking for a Game...");
             if(client.findGame(nameField.getText())){
                 idField.setEditable(false);
@@ -97,6 +99,12 @@ public class UI_GameTitle {
             } else {
                 updateMessage("no Game found!");
             }
+        }
+        else if (!idField.getText().equals(""))
+        {
+            updateMessage("reconnect to game");
+            ArrayList<String> moves = client.reJoinGame(Integer.parseInt(idField.getText()), nameField.getText());
+            UI_GameTicTacToe.newGameStart();
         }
         updateMessage("Connected");
     }

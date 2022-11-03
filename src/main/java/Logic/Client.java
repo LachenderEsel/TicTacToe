@@ -50,7 +50,7 @@ public class Client {
         }
     }
 
-    public boolean reJoinGame(int gameID, String clientID)
+    public ArrayList<String> reJoinGame(int gameID, String clientID)
     {
         this.gameID = gameID;
         this.clientID = clientID;
@@ -68,7 +68,7 @@ public class Client {
         if(player1.equals(clientID) && player2.equals(clientID))
         {
             System.err.println("Cannot recognize the current player!");
-            return false;
+            return null;
         }
 
         // Rejoin as a waiter or a mover
@@ -81,7 +81,7 @@ public class Client {
         {
             System.out.println("Rejoined and move.");
         }
-        return true;
+        return gameMoves;
     }   /**
      * find/start a new game
      * @param clientID ID of the client

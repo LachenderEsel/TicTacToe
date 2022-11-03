@@ -8,16 +8,18 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 
+import java.util.ArrayList;
+
 public class UI_GameTicTacToe {
 
     private StackPane pane;
     private UI_GameTitle ui_Game_Title;
 
-    private Tile[][] tiles = new Tile[3][3];
+    private static Tile[][] tiles = new Tile[3][3];
 
 
-    private char turn = 'X';
-    private boolean gameOver = false;
+    private static char turn = 'X';
+    private static boolean gameOver = false;
 
     public UI_GameTicTacToe(UI_GameTitle ui_Game_Title){
         this.ui_Game_Title = ui_Game_Title;
@@ -27,6 +29,9 @@ public class UI_GameTicTacToe {
         pane.setTranslateY((UI_Window.GAME_HEIGHT / 2 ) + UI_Window.TITLE_HEIGHT);
 
         addAllTiles();
+    }
+
+    public static void newGameStart() {
     }
 
     private void addAllTiles() {
@@ -41,8 +46,18 @@ public class UI_GameTicTacToe {
         }
     }
 
+    private static void newGame() {
+        gameOver = false;
+        turn = 'X';
+        for (int y = 0; y < 3; y++) {
+            for (int x = 0; x < 3; x++) {
+                tiles[y][x].setValue("");
+            }
+        }
+    }
+
     public static void newGamestart(){
-        //getten wir vom Server
+        newGame();
     }
 
     public void changeTurn(){
@@ -56,6 +71,11 @@ public class UI_GameTicTacToe {
 
     public StackPane getStackPane() {
         return pane;
+    }
+
+    public void setTiles(ArrayList<String> gameMoves)
+    {
+
     }
 
     private class Tile{
@@ -100,5 +120,12 @@ public class UI_GameTicTacToe {
             return pane;
         }
 
+        public void setValue(String value){
+            label.setText(value);
+        }
+
+        public String getValue(){
+            return label.getText();
+        }
     }
 }

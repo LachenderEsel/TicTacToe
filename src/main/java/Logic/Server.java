@@ -62,7 +62,7 @@ public class Server {
             // Bind the stub in the registry
             //Registry registry = LocateRegistry.getRegistry();
             registry.rebind("TicTacToeAService", stub);
-            System.setProperty(ip.toString(), "141.22.27.107");
+            //System.setProperty(ip.toString(), "141.22.27.107");
 
             //Let the user know if the Server is ready
             System.err.println("***** The Server with the ip: ''" + ip + "'' and Hostname: ''" + hostname + "'' is ready! *****");
